@@ -23,13 +23,13 @@ You can download above datasets from [here](https://github.com/hongwang01/Video-
 #### Prepare dataset:
 Taking training Rain100L as an example. Download Rain100L (including training set and testing set) and put them into the folder "./datasets", then the content is just like:
 
-"./datasets/Rain100L_train/trainA/rain-***.png"
+"./datasets/rainy_Rain100L/trainA/rain-***.png"
 
-"./datasets/Rain100L_train/trainB/norain-***.png"
+"./datasets/rainy_Rain100L/trainB/norain-***.png"
 
-"./datasets/Rain100L_test/trainA/rain-***.png"
+"./datasets/test_rain100L/trainA/rain-***.png"
 
-"./datasets/Rain100L_test/trainB/norain-***.png"
+"./datasets/test_rain100L/trainB/norain-***.png"
 #### Train:
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/Rain100L_train --val_path ../datasets/Rain100L_test --name TEST
