@@ -1,7 +1,7 @@
 import torch
 from options import TestOptions
 from dataset import dataset_single_test
-from model import DRIT
+from model import DerainCycleGAN
 from saver import save_imgs
 import os
 
@@ -32,7 +32,7 @@ def main():
 
   # model
   print('\n--- load model ---')
-  model = DRIT(opts)
+  model = DerainCycleGAN(opts)
   model.setgpu(opts.gpu)
   model.resume(opts.resume, train=False)
   model.eval()
