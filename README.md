@@ -32,7 +32,7 @@ Taking training Rain100L as an example. Download Rain100L (including training se
 "./datasets/test_rain100L/trainB/norain-***.png"
 #### Train:
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/Rain100L_train --val_path ../datasets/Rain100L_test --name TEST
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/rainy_Rain100L --val_path ../datasets/Rain100L_test --name TEST
 ```
 #### Test:
 ```
