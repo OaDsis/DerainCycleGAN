@@ -5,6 +5,7 @@ from torchvision.transforms import Compose, Resize, RandomCrop, CenterCrop, Rand
 import random
 import torch.nn.functional as F
 import cv2
+import pdb
 
 class dataset_single_test(data.Dataset):
   def __init__(self, opts, setname, input_dim):
@@ -49,9 +50,11 @@ class dataset_pair(data.Dataset):
     # A
     images_A = os.listdir(os.path.join(self.auto_path, name, 'trainA'))
     self.A = [os.path.join(self.auto_path, name, 'trainA', x) for x in images_A]
+    self.A.sort
     # B
     images_B = os.listdir(os.path.join(self.auto_path, name, 'trainB'))
     self.B = [os.path.join(self.auto_path, name, 'trainB', x) for x in images_B]
+    self.B.sort()
     self.A_size = len(self.A)
     self.B_size = len(self.B)
     self.dataset_size = max(self.A_size, self.B_size)
