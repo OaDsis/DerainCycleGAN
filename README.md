@@ -39,7 +39,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/Rain100L_
 CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name TEST --resume ../results/TEST/net_best_*****.pth --mode 1
 ```
 ### Citation
-Please cite our paper if you find the code or dataset useful for your research.
+Please cite our paper if you find the code useful for your research.
 ```
 @article{wei2021deraincyclegan,
   title={Deraincyclegan: Rain attentive cyclegan for single image deraining and rainmaking},
