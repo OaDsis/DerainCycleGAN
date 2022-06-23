@@ -44,14 +44,14 @@ class dataset_single_test(data.Dataset):
     return self.size
 
 class dataset_pair(data.Dataset):
-  def __init__(self, opts, input_dim):
-    self.test_path = opts.test_path
+  def __init__(self, opts, name, input_dim):
+    self.auto_path = opts.auto_path
     # A
-    images_A = os.listdir(os.path.join(self.test_path, 'trainA'))
-    self.A = [os.path.join(self.test_path, 'trainA', x) for x in images_A]
+    images_A = os.listdir(os.path.join(self.auto_path, name, 'trainA'))
+    self.A = [os.path.join(self.auto_path, name, 'trainA', x) for x in images_A]
     # B
-    images_B = os.listdir(os.path.join(self.test_path, 'trainB'))
-    self.B = [os.path.join(self.test_path, 'trainB', x) for x in images_B]
+    images_B = os.listdir(os.path.join(self.auto_path, name, 'trainB'))
+    self.B = [os.path.join(self.auto_path, name, 'trainB', x) for x in images_B]
     self.A_size = len(self.A)
     self.B_size = len(self.B)
     self.dataset_size = max(self.A_size, self.B_size)

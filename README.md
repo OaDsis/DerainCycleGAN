@@ -32,11 +32,15 @@ Taking training Rain100L as an example. Download Rain100L (including training se
 "./datasets/test_rain100L/trainB/norain-***.png"
 #### Train:
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/rainy_Rain100L --val_path ../datasets/Rain100L_test --name TEST
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/rainy_Rain100L --val_path ../datasets/test_rain100L --name TEST
 ```
 #### Test:
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name TEST --resume ../results/TEST/net_best_*****.pth --mode 1
+```
+#### Generate Rain Images
+```
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --atuo_path ../datasets --name Rain100L_new --resume ../results/TEST/net_best_*****.pth --mode 0 --a2b 0
 ```
 ### Citation
 Please cite our paper if you find the code useful for your research.

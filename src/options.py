@@ -68,7 +68,8 @@ class TestOptions():
     # model related
     self.parser.add_argument('--resume', type=str, required=True, help='specified the dir of saved models for resume the training')
     self.parser.add_argument('--gpu', type=int, default=0, help='gpu')
-    self.parser.add_argument('--test_path', type=str, default='../datasets', help='num_components of GMM model')
+    self.parser.add_argument('--test_path', type=str, default='../datasets', help='path of testing data')
+    self.parser.add_argument('--auto_path', type=str, default='../datasets', help='path of generate data')
     self.parser.add_argument('--gan_mode', type=str, default='lsgan', help='the type of GAN objective. [vanilla| lsgan | wgangp]. vanilla GAN loss is the cross-entropy objective used in the original GAN paper.') 
     self.parser.add_argument('--pool_size', type=int, default=50, help='the size of image buffer that stores previously generated images')
             
