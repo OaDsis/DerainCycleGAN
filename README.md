@@ -40,7 +40,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name TEST
 ```
 #### Generate Rain Images
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --atuo_path ../datasets --name Rain100L_new --resume ../results/TEST/net_best_*****.pth --mode 0 --a2b 0
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Rain100L_new --resume ../results/TEST/net_best_*****.pth --mode 0 --a2b 0
 ```
 ### Citation
 Please cite our paper if you find the code useful for your research.
