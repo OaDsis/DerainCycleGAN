@@ -5,6 +5,7 @@ import functools
 from torch.optim import lr_scheduler
 import torch.nn.functional as F
 import os
+import torchvision.models as models
 
 ####################################################################
 #------------------------- Discriminators --------------------------
@@ -252,57 +253,121 @@ class Gen(nn.Module):
 ####################################################################
 #--------------------------- Vgg16 ----------------------------
 ####################################################################
-class Vgg16(torch.nn.Module):
+class Vgg16(nn.Module):
     def __init__(self):
         super(Vgg16, self).__init__()
-        self.conv1_1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1)
-        self.conv1_2 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        features = models.vgg16(pretrained=True).features
+        self.relu1_1 = torch.nn.Sequential()
+        self.relu1_2 = torch.nn.Sequential()
 
-        self.conv2_1 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
-        self.conv2_2 = nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1)
+        self.relu2_1 = torch.nn.Sequential()
+        self.relu2_2 = torch.nn.Sequential()
 
-        self.conv3_1 = nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1)
-        self.conv3_2 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
-        self.conv3_3 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
+        self.relu3_1 = torch.nn.Sequential()
+        self.relu3_2 = torch.nn.Sequential()
+        self.relu3_3 = torch.nn.Sequential()
+        self.max3 = torch.nn.Sequential()
 
-        self.conv4_1 = nn.Conv2d(256, 512, kernel_size=3, stride=1, padding=1)
-        self.conv4_2 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
-        self.conv4_3 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
 
-        self.conv5_1 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
-        self.conv5_2 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
-        self.conv5_3 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
+        self.relu4_1 = torch.nn.Sequential()
+        self.relu4_2 = torch.nn.Sequential()
+        self.relu4_3 = torch.nn.Sequential()
 
-    def forward(self, X):
-        h = F.relu(self.conv1_1(X))
-        h = F.relu(self.conv1_2(h))
-        relu1_2 = h                                         # 经过 conv1_1 + relu + conv1_2 + relu 后的特征图
-        h = F.max_pool2d(h, kernel_size=2, stride=2)
 
-        h = F.relu(self.conv2_1(h))
-        h = F.relu(self.conv2_2(h))
-        relu2_2 = h                                         # 经过 第二层处理 后的特征图
-        h = F.max_pool2d(h, kernel_size=2, stride=2)
+        self.relu5_1 = torch.nn.Sequential()
+        self.relu5_2 = torch.nn.Sequential()
+        self.relu5_3 = torch.nn.Sequential()
 
-        h = F.relu(self.conv3_1(h))
-        h = F.relu(self.conv3_2(h))
-        h = F.relu(self.conv3_3(h))
-        relu3_3 = h                                         # 经过 第三层处理 后的特征图
-        h = F.max_pool2d(h, kernel_size=2, stride=2)
+        for x in range(2):
+            self.relu1_1.add_module(str(x), features[x])
 
-        h = F.relu(self.conv4_1(h))
-        h = F.relu(self.conv4_2(h))
-        h = F.relu(self.conv4_3(h))
-        relu4_3 = h                                         # 经过 第四层处理 后的特征图
-        h = F.max_pool2d(h, kernel_size=2, stride=2)
+        for x in range(2, 4):
+            self.relu1_2.add_module(str(x), features[x])
 
-        h = F.relu(self.conv5_1(h))
-        h = F.relu(self.conv5_2(h))
-        h = F.relu(self.conv5_3(h))
-        relu4_4 = h           
-        h = F.max_pool2d(h, kernel_size=2, stride=2)
-        
-        return relu3_3
+        for x in range(4, 7):
+            self.relu2_1.add_module(str(x), features[x])
+
+        for x in range(7, 9):
+            self.relu2_2.add_module(str(x), features[x])
+
+        for x in range(9, 12):
+            self.relu3_1.add_module(str(x), features[x])
+
+        for x in range(12, 14):
+            self.relu3_2.add_module(str(x), features[x])
+
+        for x in range(14, 16):
+            self.relu3_3.add_module(str(x), features[x])
+        for x in range(16, 17):
+            self.max3.add_module(str(x), features[x])
+
+        for x in range(17, 19):
+            self.relu4_1.add_module(str(x), features[x])
+
+        for x in range(19, 21):
+            self.relu4_2.add_module(str(x), features[x])
+
+        for x in range(21, 23):
+            self.relu4_3.add_module(str(x), features[x])
+
+        for x in range(23, 26):
+            self.relu5_1.add_module(str(x), features[x])
+
+        for x in range(26, 28):
+            self.relu5_2.add_module(str(x), features[x])
+
+        for x in range(28, 30):
+            self.relu5_3.add_module(str(x), features[x])
+
+
+        # don't need the gradients, just want the features
+        for param in self.parameters():
+            param.requires_grad = False
+
+    def forward(self, x):
+        relu1_1 = self.relu1_1(x)
+        relu1_2 = self.relu1_2(relu1_1)
+
+        relu2_1 = self.relu2_1(relu1_2)
+        relu2_2 = self.relu2_2(relu2_1)
+
+        relu3_1 = self.relu3_1(relu2_2)
+        relu3_2 = self.relu3_2(relu3_1)
+        relu3_3 = self.relu3_3(relu3_2)
+        max_3 = self.max3(relu3_3)
+
+
+        relu4_1 = self.relu4_1(max_3)
+        relu4_2 = self.relu4_2(relu4_1)
+        relu4_3 = self.relu4_3(relu4_2)
+
+
+        relu5_1 = self.relu5_1(relu4_3)
+        relu5_2 = self.relu5_1(relu5_1)
+        relu5_3 = self.relu5_1(relu5_2)
+        out = {
+            'relu1_1': relu1_1,
+            'relu1_2': relu1_2,
+
+            'relu2_1': relu2_1,
+            'relu2_2': relu2_2,
+
+            'relu3_1': relu3_1,
+            'relu3_2': relu3_2,
+            'relu3_3': relu3_3,
+            'max_3':max_3,
+
+
+            'relu4_1': relu4_1,
+            'relu4_2': relu4_2,
+            'relu4_3': relu4_3,
+
+
+            'relu5_1': relu5_1,
+            'relu5_2': relu5_2,
+            'relu5_3': relu5_3,
+        }
+        return out['relu3_3']
 
 ####################################################################
 #------------------------- Basic Functions -------------------------
@@ -361,25 +426,6 @@ def gaussian_weights_init(m):
   classname = m.__class__.__name__
   if classname.find('Conv') != -1 and classname.find('Conv') == 0:
     m.weight.data.normal_(0.0, 0.02)
-
-def init_vgg16(model_folder):
-	"""load the vgg16 model feature"""
-	if not os.path.exists(os.path.join(model_folder, 'vgg16.weight')):
-		if not os.path.exists(os.path.join(model_folder, 'vgg16.t7')):
-			os.system(
-				'wget http://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7 -O ' + os.path.join(model_folder, 'vgg16.t7'))
-		vgglua = load_lua(os.path.join(model_folder, 'vgg16.t7'))
-		vgg = Vgg16()
-		for (src, dst) in zip(vgglua.parameters()[0], vgg.parameters()):
-			dst.data[:] = src
-		torch.save(vgg.state_dict(), os.path.join(model_folder, 'vgg16.weight'))
-
-def define_vgg(path):
-    vgg = Vgg16()
-    init_vgg16(path)
-    vgg.load_state_dict(torch.load(os.path.join(path, "vgg16.weight")))
-    vgg = vgg.cuda()
-    return vgg
 
 ####################################################################
 #-------------------------- Basic Blocks --------------------------
