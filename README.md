@@ -18,6 +18,7 @@ Single Image Deraining (SID) is a relatively new and still challenging topic in 
 - Rain12
 - SPA-Data
 - Real-Data
+
 You can download above datasets from [here](https://github.com/hongwang01/Video-and-Single-Image-Deraining#datasets-and-discriptions)
 
 ### Pre-trained Models
@@ -42,7 +43,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/rainy_Rai
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name Rain100L --resume ../results/Rain100L/net_best_*****.pth --mode 1
 ```
-change mode for different datasets, i.e., Rain100L = 1, Rain12 = 2, Real-Data = 3, Rain800 = 4, SPA-Data = 5.
+you can change the mode to test different datasets, i.e., Rain100L = 1, Rain12 = 2, Real-Data = 3, Rain800 = 4, SPA-Data = 5.
 #### Generate Rain Images
 ```
 CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Rain100L_new --resume ../results/TEST/net_best_*****.pth --mode 0 --a2b 0
