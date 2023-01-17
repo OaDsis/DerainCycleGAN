@@ -46,7 +46,8 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name Rain
 you can change the mode to test different datasets, i.e., Rain100L = 1, Rain12 = 2, Real-Data = 3, Rain800 = 4, SPA-Data = 5.
 #### Generate Rain Images
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Rain100L_new --resume ../results/TEST/net_best_*****.pth --mode 0 --a2b 0
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Auto100L --resume ../results/Rain100L/net_best_*****.pth --mode 0 --a2b 0
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Auto800 --resume ../results/Rain800/net_best_*****.pth --mode 1 --a2b 0
 ```
 ### Citation
 Please cite our paper if you find the code useful for your research.
