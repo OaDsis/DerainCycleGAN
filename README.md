@@ -10,6 +10,7 @@ Single Image Deraining (SID) is a relatively new and still challenging topic in 
 - python 3.6.10
 - torch 1.4.0
 - torchvision 0.5.0
+- NVIDIA GeForce GTX GPU with 12GB memory at least, or you can change image size in option.py
 
 ### Datasets
 - Rain100L
