@@ -31,13 +31,13 @@ Taking training Rain100L as an example. Download Rain100L (including training se
 "./datasets/test_rain100L/trainA/rain-***.png"
 
 "./datasets/test_rain100L/trainB/norain-***.png"
-#### Train:
+#### Train (Take Rain100L dataset as example):
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/rainy_Rain100L --val_path ../datasets/test_rain100L --name TEST
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/rainy_Rain100L --val_path ../datasets/test_rain100L --name Rain100L
 ```
-#### Test:
+#### Test (Take Rain100L dataset as example):
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name TEST --resume ../results/TEST/net_best_*****.pth --mode 1
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name Rain100L --resume ../results/Rain100L/net_best_*****.pth --mode 1
 ```
 #### Generate Rain Images
 ```
