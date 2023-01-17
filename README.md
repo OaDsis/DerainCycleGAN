@@ -24,6 +24,10 @@ You can download above datasets from [here](https://github.com/hongwang01/Video-
 ### Pre-trained Models
 You can download pre-trained models from [here]()
 
+Taking testing Rain100L as an example. Download pre-trained model and put it into the folder "./results/Rain100L", then the content is just like:
+
+"./results/Rain100L/net_best_*****.pth"
+
 ### Usage
 #### Prepare dataset:
 Taking training Rain100L as an example. Download Rain100L (including training set and testing set) and put them into the folder "./datasets", then the content is just like:
