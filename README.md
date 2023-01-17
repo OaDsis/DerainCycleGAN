@@ -20,6 +20,9 @@ Single Image Deraining (SID) is a relatively new and still challenging topic in 
 
 You can download above datasets from [here](https://github.com/hongwang01/Video-and-Single-Image-Deraining#datasets-and-discriptions)
 
+### Pre-trained Models
+You can download above datasets from [here]()
+
 ### Usage
 #### Prepare dataset:
 Taking training Rain100L as an example. Download Rain100L (including training set and testing set) and put them into the folder "./datasets", then the content is just like:
