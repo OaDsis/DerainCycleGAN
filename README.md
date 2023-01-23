@@ -22,11 +22,13 @@ Single Image Deraining (SID) is a relatively new and still challenging topic in 
 You can download above datasets from [here](https://github.com/hongwang01/Video-and-Single-Image-Deraining#datasets-and-discriptions)
 
 ### Pre-trained Models
-You can download pre-trained models from [here]()
+You can download pre-trained models from [here](https://drive.google.com/drive/folders/1DvOFGIdXXnNm1iage69HuasUPHZSXYYt?usp=sharing) and put them into corresponding folders, then the content is just like:
 
-Taking testing Rain100L as example. Download pre-trained model and put it into the folder "./results/Rain100L", then the content is just like:
+"./results/Rain100L/net_best_Rain100L.pth"
 
-"./results/Rain100L/net_best_*****.pth"
+"./results/Rain800/net_best_Rain800.pth"
+
+"./vgg16/vgg16.weight"
 
 ### Usage
 #### Prepare dataset:
@@ -45,13 +47,13 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/rainy_Rai
 ```
 #### Test (Take Rain100L dataset as example):
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name Rain100L --resume ../results/Rain100L/net_best_*****.pth --mode 1
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 test.py --test_path ../datasets --name Rain100L --resume ../results/Rain100L/net_best_Rain100L.pth --mode 1
 ```
 you can change the mode to test different datasets, i.e., Rain100L = 1, Rain12 = 2, Real-Data = 3, Rain800 = 4, SPA-Data = 5.
 #### Generate Rain Images
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Auto100L --resume ../results/Rain100L/net_best_*****.pth --mode 0 --a2b 0
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Auto800 --resume ../results/Rain800/net_best_*****.pth --mode 1 --a2b 0
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Auto100L --resume ../results/Rain100L/net_best_Rain100L.pth --mode 0 --a2b 0
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 auto.py --auto_path ../datasets --name Auto800 --resume ../results/Rain800/net_best_Rain800.pth --mode 1 --a2b 0
 ```
 ### Citation
 Please cite our paper if you find the code useful for your research.
