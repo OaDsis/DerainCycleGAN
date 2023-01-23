@@ -1,6 +1,9 @@
 # DerainCycleGAN: Rain Attentive CycleGAN for Single Image Deraining and Rainmaking (TIP 2021)
 Yanyan Wei, Zhao Zhang, Yang Wang, Mingliang Xu, Yi Yang, Shuicheng Yan, Meng Wang
 
+### Update
+2023.01.23: Upload the pre-trained models.
+
 ### Abstract
 Single Image Deraining (SID) is a relatively new and still challenging topic in emerging vision applications, and most of the recently emerged deraining methods use the supervised manner depending on the ground-truth (i.e., using paired data). However, in practice it is rather common to encounter unpaired images in real deraining task. In such cases, how to remove the rain streaks in an unsupervised way will be a challenging task due to lack of constraints between images and hence suffering from low-quality restoration results. In this paper, we therefore explore the unsupervised SID issue using unpaired data, and propose a new unsupervised framework termed DerainCycleGAN for single image rain removal and generation, which can fully utilize the constrained transfer learning ability and circulatory structures of CycleGAN. In addition, we design an unsupervised rain attentive detector (UARD) for enhancing the rain information detection by paying attention to both rainy and rain-free images. Besides, we also contribute a new synthetic way of generating the rain streak information, which is different from the previous ones. Specifically, since the generated rain streaks have diverse shapes and directions, existing derianing methods trained on the generated rainy image by this way can perform much better for processing real rainy images. Extensive experimental results on synthetic and real datasets show that our DerainCycleGAN is superior to current unsupervised and semi-supervised methods, and is also highly competitive to the fully-supervised ones.
 
