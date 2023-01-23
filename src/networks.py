@@ -253,121 +253,76 @@ class Gen(nn.Module):
 ####################################################################
 #--------------------------- Vgg16 ----------------------------
 ####################################################################
-class Vgg16(nn.Module):
+class Vgg16(torch.nn.Module):
     def __init__(self):
         super(Vgg16, self).__init__()
-        features = models.vgg16(pretrained=True).features
-        self.relu1_1 = torch.nn.Sequential()
-        self.relu1_2 = torch.nn.Sequential()
+        self.conv1_1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1)
+        self.conv1_2 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
 
-        self.relu2_1 = torch.nn.Sequential()
-        self.relu2_2 = torch.nn.Sequential()
+        self.conv2_1 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
+        self.conv2_2 = nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1)
 
-        self.relu3_1 = torch.nn.Sequential()
-        self.relu3_2 = torch.nn.Sequential()
-        self.relu3_3 = torch.nn.Sequential()
-        self.max3 = torch.nn.Sequential()
+        self.conv3_1 = nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1)
+        self.conv3_2 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
+        self.conv3_3 = nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1)
 
+        self.conv4_1 = nn.Conv2d(256, 512, kernel_size=3, stride=1, padding=1)
+        self.conv4_2 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
+        self.conv4_3 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
 
-        self.relu4_1 = torch.nn.Sequential()
-        self.relu4_2 = torch.nn.Sequential()
-        self.relu4_3 = torch.nn.Sequential()
+        self.conv5_1 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
+        self.conv5_2 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
+        self.conv5_3 = nn.Conv2d(512, 512, kernel_size=3, stride=1, padding=1)
 
+    def forward(self, X):
+        h = F.relu(self.conv1_1(X))
+        h = F.relu(self.conv1_2(h))
+        relu1_2 = h
+        h = F.max_pool2d(h, kernel_size=2, stride=2)
 
-        self.relu5_1 = torch.nn.Sequential()
-        self.relu5_2 = torch.nn.Sequential()
-        self.relu5_3 = torch.nn.Sequential()
+        h = F.relu(self.conv2_1(h))
+        h = F.relu(self.conv2_2(h))
+        relu2_2 = h
+        h = F.max_pool2d(h, kernel_size=2, stride=2)
 
-        for x in range(2):
-            self.relu1_1.add_module(str(x), features[x])
+        h = F.relu(self.conv3_1(h))
+        h = F.relu(self.conv3_2(h))
+        h = F.relu(self.conv3_3(h))
+        relu3_3 = h
+        h = F.max_pool2d(h, kernel_size=2, stride=2)
 
-        for x in range(2, 4):
-            self.relu1_2.add_module(str(x), features[x])
+        h = F.relu(self.conv4_1(h))
+        h = F.relu(self.conv4_2(h))
+        h = F.relu(self.conv4_3(h))
+        relu4_3 = h
+        h = F.max_pool2d(h, kernel_size=2, stride=2)
 
-        for x in range(4, 7):
-            self.relu2_1.add_module(str(x), features[x])
+        h = F.relu(self.conv5_1(h))
+        h = F.relu(self.conv5_2(h))
+        h = F.relu(self.conv5_3(h))
+        relu4_4 = h           
+        h = F.max_pool2d(h, kernel_size=2, stride=2)
+        
+        return relu3_3
 
-        for x in range(7, 9):
-            self.relu2_2.add_module(str(x), features[x])
+def init_vgg16(model_folder):
+	"""load the vgg16 model feature"""
+	if not os.path.exists(os.path.join(model_folder, 'vgg16.weight')):
+		if not os.path.exists(os.path.join(model_folder, 'vgg16.t7')):
+			os.system(				# 下载vgg16.t7文件
+				'wget http://cs.stanford.edu/people/jcjohns/fast-neural-style/models/vgg16.t7 -O ' + os.path.join(model_folder, 'vgg16.t7'))
+		vgglua = load_lua(os.path.join(model_folder, 'vgg16.t7'))
+		vgg = Vgg16()
+		for (src, dst) in zip(vgglua.parameters()[0], vgg.parameters()):
+			dst.data[:] = src
+		torch.save(vgg.state_dict(), os.path.join(model_folder, 'vgg16.weight'))
 
-        for x in range(9, 12):
-            self.relu3_1.add_module(str(x), features[x])
-
-        for x in range(12, 14):
-            self.relu3_2.add_module(str(x), features[x])
-
-        for x in range(14, 16):
-            self.relu3_3.add_module(str(x), features[x])
-        for x in range(16, 17):
-            self.max3.add_module(str(x), features[x])
-
-        for x in range(17, 19):
-            self.relu4_1.add_module(str(x), features[x])
-
-        for x in range(19, 21):
-            self.relu4_2.add_module(str(x), features[x])
-
-        for x in range(21, 23):
-            self.relu4_3.add_module(str(x), features[x])
-
-        for x in range(23, 26):
-            self.relu5_1.add_module(str(x), features[x])
-
-        for x in range(26, 28):
-            self.relu5_2.add_module(str(x), features[x])
-
-        for x in range(28, 30):
-            self.relu5_3.add_module(str(x), features[x])
-
-
-        # don't need the gradients, just want the features
-        for param in self.parameters():
-            param.requires_grad = False
-
-    def forward(self, x):
-        relu1_1 = self.relu1_1(x)
-        relu1_2 = self.relu1_2(relu1_1)
-
-        relu2_1 = self.relu2_1(relu1_2)
-        relu2_2 = self.relu2_2(relu2_1)
-
-        relu3_1 = self.relu3_1(relu2_2)
-        relu3_2 = self.relu3_2(relu3_1)
-        relu3_3 = self.relu3_3(relu3_2)
-        max_3 = self.max3(relu3_3)
-
-
-        relu4_1 = self.relu4_1(max_3)
-        relu4_2 = self.relu4_2(relu4_1)
-        relu4_3 = self.relu4_3(relu4_2)
-
-
-        relu5_1 = self.relu5_1(relu4_3)
-        relu5_2 = self.relu5_1(relu5_1)
-        relu5_3 = self.relu5_1(relu5_2)
-        out = {
-            'relu1_1': relu1_1,
-            'relu1_2': relu1_2,
-
-            'relu2_1': relu2_1,
-            'relu2_2': relu2_2,
-
-            'relu3_1': relu3_1,
-            'relu3_2': relu3_2,
-            'relu3_3': relu3_3,
-            'max_3':max_3,
-
-
-            'relu4_1': relu4_1,
-            'relu4_2': relu4_2,
-            'relu4_3': relu4_3,
-
-
-            'relu5_1': relu5_1,
-            'relu5_2': relu5_2,
-            'relu5_3': relu5_3,
-        }
-        return out['relu3_3']
+def define_vgg(path):
+    vgg = Vgg16()
+    init_vgg16(path)
+    vgg.load_state_dict(torch.load(os.path.join(path, "vgg16.weight")))
+    vgg = vgg.cuda()
+    return vgg
 
 ####################################################################
 #------------------------- Basic Functions -------------------------
@@ -378,7 +333,6 @@ def get_scheduler(optimizer, opts, cur_ep=-1):
       lr_l = 1.0 - max(0, ep - opts.n_ep_decay) / float(opts.n_ep - opts.n_ep_decay + 1)
       return lr_l
     scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda_rule, last_epoch=cur_ep)
-    # scheduler = lr_scheduler.ExponentialLR(optimizer, gamma=lr_l, last_epoch=cur_ep)    
   elif opts.lr_policy == 'step':
     scheduler = lr_scheduler.StepLR(optimizer, step_size=opts.n_ep_decay, gamma=0.1, last_epoch=cur_ep)
   else:

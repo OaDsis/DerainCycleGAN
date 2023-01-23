@@ -25,6 +25,8 @@ class DerainCycleGAN(nn.Module):
 
     # vgg
     self.vgg = networks.Vgg16()
+    networks.init_vgg16('../vgg16/')
+    self.vgg.load_state_dict(torch.load(os.path.join('../vgg16/', "vgg16.weight")))
 
     # optimizers
     self.disA_opt = torch.optim.Adam(self.disA.parameters(), lr=lr, betas=(0.5, 0.999), weight_decay=0.0001)
@@ -191,7 +193,8 @@ class DerainCycleGAN(nn.Module):
     loss_G = loss_G_GAN_A + loss_G_GAN_B + \
              loss_G_L1_A + loss_G_L1_B + \
              loss_perceptual + \
-             loss_cons + loss_att_b
+             loss_cons + \
+             loss_att_b
 
     loss_G.backward(retain_graph=True)
 
@@ -200,6 +203,7 @@ class DerainCycleGAN(nn.Module):
     self.l1_recon_A_loss = loss_G_L1_A.item()
     self.l1_recon_B_loss = loss_G_L1_B.item()
     self.perceptual_loss = loss_perceptual.item()
+    # self.atten_loss_a = loss_att_a.item()    
     self.atten_loss_b = loss_att_b.item()
     self.cons_loss = loss_cons.item()   
     self.G_loss = loss_G.item()
@@ -217,14 +221,14 @@ class DerainCycleGAN(nn.Module):
     if train:
       self.disA.load_state_dict(checkpoint['disA'])
       self.disB.load_state_dict(checkpoint['disB'])
-    self.urad.load_state_dict(checkpoint['urad'])
+    self.urad.load_state_dict(checkpoint['atten'])
     self.genA.load_state_dict(checkpoint['genA'])
     self.genB.load_state_dict(checkpoint['genB'])
     # optimizer
     if train:
       self.disA_opt.load_state_dict(checkpoint['disA_opt'])
       self.disB_opt.load_state_dict(checkpoint['disB_opt'])
-      self.urad_opt.load_state_dict(checkpoint['urad_opt'])
+      self.urad_opt.load_state_dict(checkpoint['atten_opt'])
       self.genA_opt.load_state_dict(checkpoint['genA_opt'])
       self.genB_opt.load_state_dict(checkpoint['genB_opt'])
     return checkpoint['ep'], checkpoint['total_it']
@@ -233,12 +237,12 @@ class DerainCycleGAN(nn.Module):
     state = {
              'disA': self.disA.state_dict(),
              'disB': self.disB.state_dict(),
-             'urad': self.urad.state_dict(),
+             'atten': self.urad.state_dict(),
              'genA': self.genA.state_dict(),
              'genB': self.genB.state_dict(),
              'disA_opt': self.disA_opt.state_dict(),
              'disB_opt': self.disB_opt.state_dict(),
-             'urad_opt': self.urad_opt.state_dict(),
+             'atten_opt': self.urad_opt.state_dict(),
              'genA_opt': self.genA_opt.state_dict(),
              'genB_opt': self.genB_opt.state_dict(),
              'ep': ep,

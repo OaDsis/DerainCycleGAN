@@ -12,6 +12,7 @@ class dataset_single_test(data.Dataset):
     self.test_path = opts.test_path
     images = os.listdir(os.path.join(self.test_path, opts.phase + setname, 'trainA'))
     self.img = [os.path.join(self.test_path, opts.phase + setname, 'trainA', x) for x in images]   
+    self.img.sort()
     self.size = len(self.img)
     self.input_dim = input_dim
     self.img_name = self.img
@@ -50,7 +51,7 @@ class dataset_pair(data.Dataset):
     # A
     images_A = os.listdir(os.path.join(self.auto_path, name, 'trainA'))
     self.A = [os.path.join(self.auto_path, name, 'trainA', x) for x in images_A]
-    self.A.sort
+    self.A.sort()
     # B
     images_B = os.listdir(os.path.join(self.auto_path, name, 'trainB'))
     self.B = [os.path.join(self.auto_path, name, 'trainB', x) for x in images_B]
