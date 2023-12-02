@@ -78,4 +78,4 @@ Please cite our paper if you find the code useful for your research.
 Code borrows from [DRIT](https://github.com/HsinYingLee/DRIT) by Hsin-Ying Lee. Thanks for sharing !
 
 ### Contact
-Thanks for your attention. If you have any questions, please contact my email: weiyanyan@mail.hfut.edu.cn. 
+Thanks for your attention. If you have any questions, please contact my email: weiyy@hfut.edu.cn. 
